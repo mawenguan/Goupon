@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mwg.goupon.ui.MainActivity">
+
+    <include layout="@layout/inflate_main_title_layout" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
+            android:id="@+id/pull_to_refresh_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.handmark.pulltorefresh.library.PullToRefreshListView>
+
+        <include
+            android:id="@+id/inflate_main_add"
+            layout="@layout/inflate_main_add_menu"
+            android:layout_width="150dp"
+            android:layout_height="180dp"
+            android:layout_gravity="right"
+            android:visibility="invisible"/>
+
+    </FrameLayout>
+
+    <include layout="@layout/inflate_bottom_menu_layout" />
+
+</LinearLayout>
