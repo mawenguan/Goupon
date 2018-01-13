@@ -119,7 +119,7 @@ public class MainActivity extends Activity {
                 }, 1500);
             }
         });
-
+        //为ListView添加滑动监听，以隐藏搜索框
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
