@@ -59,7 +59,7 @@ public class VolleyClient {
             }
         }, null);
 
-        //请求对象放到请求队列中
+        //将请求对象放到请求队列中
         queue.add(request);
     }
 }
