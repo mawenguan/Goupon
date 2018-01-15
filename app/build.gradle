@@ -29,4 +29,13 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation project(':viewpagerIndicator_library')
     implementation project(':pullToRefresh_Library')
+    implementation files('libs/commons-codec-1.10.jar')
+    implementation files('libs/converter-gson-2.3.0.jar')
+    implementation files('libs/converter-scalars-2.3.0.jar')
+    implementation files('libs/gson-2.8.0.jar')
+    implementation files('libs/okhttp-3.8.0.jar')
+    implementation files('libs/okio-1.13.0.jar')
+    implementation files('libs/picasso-2.5.2.jar')
+    implementation files('libs/retrofit-2.3.0.jar')
+    implementation files('libs/volley.jar')
 }

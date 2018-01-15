@@ -234,5 +234,9 @@ public class MainActivity extends Activity {
         datas.add("888");
         datas.add("999");
         adapter.notifyDataSetChanged();
+
+        //HttpUtil.testHttpURLConnection();
+        //HttpUtil.testVolley();
+        HttpUtil.testRetrofit();
     }
 }
