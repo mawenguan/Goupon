@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,13 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.mwg.goupon.R;
+import com.mwg.goupon.adapter.DealAdapter;
+import com.mwg.goupon.bean.TuanBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +50,8 @@ public class MainActivity extends Activity {
     @BindView(R.id.pull_to_refresh_main)
     PullToRefreshListView pullToRefreshListView;
     ListView listView;
-    List<String> datas;
-    ArrayAdapter<String> adapter;
+    List<TuanBean.Deal> datas;
+    DealAdapter adapter;
 
     //底部
     @BindView(R.id.rg_bottom_menu)
@@ -79,9 +84,8 @@ public class MainActivity extends Activity {
     private void initListView() {
         //1、初始化pullToRefreshListView
         listView = pullToRefreshListView.getRefreshableView();
-        datas = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, datas);
+        datas = new ArrayList<TuanBean.Deal>();
+        adapter = new DealAdapter(this,datas);
         listView.setAdapter(adapter);
 
         //2、ListView添加若干个设计好的头部布局控件
@@ -109,14 +113,15 @@ public class MainActivity extends Activity {
         pullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        datas.add(0, "新增内容");
-                        adapter.notifyDataSetChanged();
-                        pullToRefreshListView.onRefreshComplete();
-                    }
-                }, 1500);
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        datas.add(0, "新增内容");
+//                        adapter.notifyDataSetChanged();
+//                        pullToRefreshListView.onRefreshComplete();
+//                  }
+//                }, 1500);
+                refresh();
             }
         });
         //为ListView添加滑动监听，以隐藏搜索框
@@ -129,10 +134,10 @@ public class MainActivity extends Activity {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem==0){
+                if (firstVisibleItem == 0) {
                     cityContainer.setVisibility(View.VISIBLE);
                     imageViewAdd.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     cityContainer.setVisibility(View.GONE);
                     imageViewAdd.setVisibility(View.GONE);
                 }
@@ -224,19 +229,32 @@ public class MainActivity extends Activity {
     }
 
     private void refresh() {
-        datas.add("111");
-        datas.add("222");
-        datas.add("333");
-        datas.add("444");
-        datas.add("555");
-        datas.add("666");
-        datas.add("777");
-        datas.add("888");
-        datas.add("999");
-        adapter.notifyDataSetChanged();
+//        datas.add("111");
+//        datas.add("222");
+//        datas.add("333");
+//        datas.add("444");
+//        datas.add("555");
+//        datas.add("666");
+//        datas.add("777");
+//        datas.add("888");
+//        datas.add("999");
+//        adapter.notifyDataSetChanged();
 
         //HttpUtil.testHttpURLConnection();
         //HttpUtil.testVolley();
-        HttpUtil.testRetrofit();
+        //HttpUtil.testRetrofit();
+        HttpUtil.getDailyDealsByVolley(textViewCity.getText().toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                //Log.d("TAG:", "Volley方式访问的团购详情" + s);
+                Gson gson = new Gson();
+                TuanBean tuanBean = gson.fromJson(s, TuanBean.class);
+                List<TuanBean.Deal> deals = tuanBean.getDeals();
+                //将deals放到ListView中呈现
+                adapter.addAll(deals,true);
+
+                pullToRefreshListView.onRefreshComplete();
+            }
+        });
     }
 }

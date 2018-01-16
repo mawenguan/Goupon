@@ -1,15 +1,6 @@
 package com.mwg.goupon.ui;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.mwg.goupon.app.MyApp;
-import com.mwg.goupon.util.NetService;
 import com.mwg.goupon.util.RetrofitClient;
 import com.mwg.goupon.util.VolleyClient;
 
@@ -21,18 +12,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Created by mwg on 2018/1/14.
@@ -178,4 +162,9 @@ public class HttpUtil {
 //        });
         RetrofitClient.getInstance().test();
     }
+
+    public static void getDailyDealsByVolley(String city, Response.Listener<String> listener){
+        VolleyClient.getInstance().getDailyDeals(city,listener);
+    }
+
 }
