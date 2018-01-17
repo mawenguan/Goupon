@@ -1,8 +1,14 @@
 package com.mwg.goupon.ui;
 
+import android.widget.ImageView;
+
 import com.android.volley.Response;
+import com.mwg.goupon.R;
+import com.mwg.goupon.app.MyApp;
+import com.mwg.goupon.bean.TuanBean;
 import com.mwg.goupon.util.RetrofitClient;
 import com.mwg.goupon.util.VolleyClient;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -17,6 +23,8 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.Callback;
 
 /**
  * Created by mwg on 2018/1/14.
@@ -163,8 +171,20 @@ public class HttpUtil {
         RetrofitClient.getInstance().test();
     }
 
-    public static void getDailyDealsByVolley(String city, Response.Listener<String> listener){
-        VolleyClient.getInstance().getDailyDeals(city,listener);
+    public static void getDailyDealsByVolley(String city, Response.Listener<TuanBean> listener){
+        VolleyClient.getInstance().getDailyDeals2(city,listener);
     }
 
+    public static void getDailyDealsByRetrofit(String city, Callback<TuanBean> callback){
+        RetrofitClient.getInstance().getDailyDealsFromRetrofit(city,callback);
+    }
+
+    public static void loadImage(String url, ImageView iv){
+        VolleyClient.getInstance().loadImage(url,iv);
+    }
+
+    public static void displayImage(String url, ImageView iv){
+        Picasso.with(MyApp.CONTEXT).load(url).placeholder(R.drawable.bucket_no_picture).
+                error(R.drawable.bucket_no_picture).into(iv);
+    }
 }

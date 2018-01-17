@@ -38,4 +38,7 @@ dependencies {
     implementation files('libs/picasso-2.5.2.jar')
     implementation files('libs/retrofit-2.3.0.jar')
     implementation files('libs/volley.jar')
+    implementation files('libs/ormlite-android-5.0.jar')
+    implementation files('libs/ormlite-core-5.0.jar')
+    implementation files('libs/pinyin4j-2.5.1.jar')
 }

@@ -1,6 +1,6 @@
 package com.mwg.goupon.util;
 
-import android.provider.CallLog;
+import com.mwg.goupon.bean.TuanBean;
 
 import java.util.Map;
 
@@ -19,4 +19,15 @@ public interface NetService {
     public Call<String> test(@Query("appkey") String appkey,
             @Query("sign")String sign, @QueryMap Map<String,String> params);
 
+    @GET("deal/get_daily_new_id_list")
+    public Call<String> getDailyIds(@Query("appkey") String appkey,
+            @Query("sign") String sign,@QueryMap Map<String,String> params);
+
+    @GET("deal/get_batch_deals_by_id")
+    public Call<String> getDeals(@Query("appkey") String appkey,
+            @Query("sign") String sign,@QueryMap Map<String,String> params);
+
+    @GET("deal/get_batch_deals_by_id")
+    public Call<TuanBean> getDealsFromRetrofit(@Query("appkey") String appkey,
+            @Query("sign") String sign, @QueryMap Map<String,String> params);
 }

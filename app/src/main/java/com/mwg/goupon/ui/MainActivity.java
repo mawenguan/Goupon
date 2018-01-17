@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.google.gson.Gson;
@@ -33,6 +34,8 @@ import java.util.zip.Inflater;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MainActivity extends Activity {
 
@@ -85,7 +88,7 @@ public class MainActivity extends Activity {
         //1、初始化pullToRefreshListView
         listView = pullToRefreshListView.getRefreshableView();
         datas = new ArrayList<TuanBean.Deal>();
-        adapter = new DealAdapter(this,datas);
+        adapter = new DealAdapter(this, datas);
         listView.setAdapter(adapter);
 
         //2、ListView添加若干个设计好的头部布局控件
@@ -232,27 +235,46 @@ public class MainActivity extends Activity {
 //        datas.add("111");
 //        datas.add("222");
 //        datas.add("333");
-//        datas.add("444");
-//        datas.add("555");
-//        datas.add("666");
-//        datas.add("777");
-//        datas.add("888");
-//        datas.add("999");
 //        adapter.notifyDataSetChanged();
 
         //HttpUtil.testHttpURLConnection();
         //HttpUtil.testVolley();
         //HttpUtil.testRetrofit();
-        HttpUtil.getDailyDealsByVolley(textViewCity.getText().toString(), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                //Log.d("TAG:", "Volley方式访问的团购详情" + s);
-                Gson gson = new Gson();
-                TuanBean tuanBean = gson.fromJson(s, TuanBean.class);
-                List<TuanBean.Deal> deals = tuanBean.getDeals();
-                //将deals放到ListView中呈现
-                adapter.addAll(deals,true);
 
+
+//        HttpUtil.getDailyDealsByVolley(textViewCity.getText().toString(), new Response.Listener<TuanBean>() {
+//            @Override
+//            public void onResponse(TuanBean s) {
+//                //Log.d("TAG:", "Volley方式访问的团购详情" + s);
+//                if (s!=null) {
+//                    List<TuanBean.Deal> deals = s.getDeals();
+//                    //将deals放到ListView中呈现
+//                    adapter.addAll(deals, true);
+//                }else {
+//                    //今日无新增团购内容
+//                    Toast.makeText(MainActivity.this,"今日无新增团购内容",Toast.LENGTH_LONG).show();
+//                }
+//                pullToRefreshListView.onRefreshComplete();
+//            }
+//        });
+
+
+        HttpUtil.getDailyDealsByRetrofit(textViewCity.getText().toString(), new Callback<TuanBean>() {
+            @Override
+            public void onResponse(Call<TuanBean> call, retrofit2.Response<TuanBean> response) {
+                if (response != null) {
+                    TuanBean tuanBean = response.body();
+                    List<TuanBean.Deal> deals = tuanBean.getDeals();
+                    adapter.addAll(deals, true);
+                } else {
+                    Toast.makeText(MainActivity.this, "今日无新增团购信息！", Toast.LENGTH_LONG).show();
+                }
+                pullToRefreshListView.onRefreshComplete();
+            }
+
+            @Override
+            public void onFailure(Call<TuanBean> call, Throwable throwable) {
+                Log.d("Tag:", "onFailure" + throwable.getMessage());
                 pullToRefreshListView.onRefreshComplete();
             }
         });
