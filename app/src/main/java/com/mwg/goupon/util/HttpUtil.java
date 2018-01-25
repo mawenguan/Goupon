@@ -196,6 +196,4 @@ public class HttpUtil {
     public static void getCitiesByRetrofit(Callback<CityBean> callback){
         RetrofitClient.getInstance().getCities(callback);
     }
-
-
 }
