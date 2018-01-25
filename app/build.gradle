@@ -41,4 +41,5 @@ dependencies {
     implementation files('libs/ormlite-android-5.0.jar')
     implementation files('libs/ormlite-core-5.0.jar')
     implementation files('libs/pinyin4j-2.5.1.jar')
+    implementation 'com.android.support:recyclerview-v7:26+'
 }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.mwg.goupon.R;
 import com.mwg.goupon.bean.TuanBean;
-import com.mwg.goupon.ui.HttpUtil;
+import com.mwg.goupon.util.HttpUtil;
 
 import java.util.List;
 import java.util.Random;

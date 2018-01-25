@@ -3,15 +3,14 @@ package com.mwg.goupon.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,17 +18,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.mwg.goupon.R;
 import com.mwg.goupon.adapter.DealAdapter;
 import com.mwg.goupon.bean.TuanBean;
+import com.mwg.goupon.util.HttpUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +61,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
 
         initListView();
@@ -72,7 +70,7 @@ public class MainActivity extends Activity {
     @OnClick(R.id.ll_main_city)
     public void jumpToCity(View view) {
         Intent intent = new Intent(this, CityActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 100);
     }
 
     @OnClick(R.id.iv_main_add)
@@ -228,7 +226,14 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+//        String cityName = getIntent().getStringExtra("cityName");
+//        if (!TextUtils.isEmpty(cityName)){
+//            textViewCity.setText(cityName);
+//        }else {
+//            textViewCity.setText("北京");
+//        }
         refresh();
+
     }
 
     private void refresh() {
@@ -278,5 +283,14 @@ public class MainActivity extends Activity {
                 pullToRefreshListView.onRefreshComplete();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 100) {
+            String city = data.getStringExtra("cityname");
+            textViewCity.setText(city);
+        }
     }
 }

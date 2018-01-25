@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.mwg.goupon.ui.CityActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HelloWorld!" />
+    <include layout="@layout/inflate_cityactivity_titlebar" />
 
-</RelativeLayout>
+    <include layout="@layout/inflate_city_search_layout" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_city_cities"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+
+        <com.mwg.goupon.view.MyLetterView
+            android:id="@+id/mlv_city_letter"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            app:letter_color="#ffff6633"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+</LinearLayout>

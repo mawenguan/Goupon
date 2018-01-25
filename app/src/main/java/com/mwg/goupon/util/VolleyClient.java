@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.LruCache;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.android.volley.NetworkResponse;
@@ -19,7 +18,6 @@ import com.google.gson.Gson;
 import com.mwg.goupon.R;
 import com.mwg.goupon.app.MyApp;
 import com.mwg.goupon.bean.TuanBean;
-import com.mwg.goupon.ui.HttpUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -252,5 +250,13 @@ public class VolleyClient {
             //调用listener，将tuanBean传过去
             listener.onResponse(tuanBean);
         }
+    }
+
+    public void getCitiesByVolley(Response.Listener<String> listener){
+
+        Map<String, String> params = new HashMap<String, String>();
+        String url = HttpUtil.getURL("http://api.dianping.com/v1/metadata/get_cities_with_businesses",params);
+        StringRequest request = new StringRequest(url,listener,null);
+        queue.add(request);
     }
 }

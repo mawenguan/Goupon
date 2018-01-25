@@ -1,5 +1,6 @@
 package com.mwg.goupon.util;
 
+import com.mwg.goupon.bean.CityBean;
 import com.mwg.goupon.bean.TuanBean;
 
 import java.util.Map;
@@ -27,7 +28,18 @@ public interface NetService {
     public Call<String> getDeals(@Query("appkey") String appkey,
             @Query("sign") String sign,@QueryMap Map<String,String> params);
 
+
+    @GET("deal/get_daily_new_id_list")
+    public Call<String> getDailyIds2(@QueryMap Map<String,String> params);
+
+    @GET("deal/get_batch_deals_by_id")
+    public Call<TuanBean> getDeals2(@QueryMap Map<String,String> params);
+
+
     @GET("deal/get_batch_deals_by_id")
     public Call<TuanBean> getDealsFromRetrofit(@Query("appkey") String appkey,
             @Query("sign") String sign, @QueryMap Map<String,String> params);
+
+    @GET("metadata/get_cities_with_businesses")
+    public Call<CityBean> getCities();
 }

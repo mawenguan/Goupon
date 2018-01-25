@@ -61,7 +61,8 @@ public class MyLoadingLayout extends LoadingLayout {
         if (scaleOfLayout <= 1) {
             int idx = (int) Math.ceil(scaleOfLayout * 10);
 			Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resIds[idx]);
-			bitmap = Bitmap.createScaledBitmap(bitmap,bitmap.getWidth()*idx/10,bitmap.getHeight()*idx/10,true);
+			bitmap = Bitmap.createScaledBitmap(bitmap,bitmap.getWidth()*idx/10,
+                    bitmap.getHeight()*idx/10,true);
             mHeaderImage.setImageBitmap(bitmap);
         } else {
             mHeaderImage.setImageResource(resIds[10]);
