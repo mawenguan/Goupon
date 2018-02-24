@@ -1,9 +1,12 @@
 package com.mwg.goupon.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.mwg.goupon.bean.CityBean;
+import com.mwg.goupon.bean.DistrictBean;
 import com.mwg.goupon.bean.TuanBean;
+import com.mwg.goupon.constant.BusinessBean;
 import com.mwg.goupon.constant.Constant;
 
 import org.json.JSONArray;
@@ -204,15 +207,15 @@ public class RetrofitClient {
                         String id = jsonArray.getString(i);
                         stringBuilder.append(id).append(",");
                     }
-                    if (stringBuilder.length()>0){
-                        String idlist = stringBuilder.substring(0,stringBuilder.length()-1);
+                    if (stringBuilder.length() > 0) {
+                        String idlist = stringBuilder.substring(0, stringBuilder.length() - 1);
 
                         Map<String, String> params2 = new HashMap<String, String>();
-                        params2.put("deal_ids",idlist);
+                        params2.put("deal_ids", idlist);
                         Call<TuanBean> deals2 = netService.getDeals2(params2);
                         deals2.enqueue(callback2);
-                    }else {
-                        callback2.onResponse(null,null);
+                    } else {
+                        callback2.onResponse(null, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -258,10 +261,10 @@ public class RetrofitClient {
 //            Log.d("TAG:", "原始请求路径" + urlString);
 
             StringBuilder sb = new StringBuilder(urlString);
-            if (set.size()==0){
+            if (set.size() == 0) {
                 //意味着原有请求路径中没有参数
                 sb.append("?");
-            }else {
+            } else {
                 sb.append("&");
             }
             sb.append("appkey=").append(HttpUtil.APPKEY);
@@ -273,4 +276,21 @@ public class RetrofitClient {
         }
     }
 
+    public void getFoods(String city, String region, Callback<BusinessBean> callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("city", city);
+        params.put("category", "美食");
+        if (!TextUtils.isEmpty(region)) {
+            params.put("region", region);
+        }
+        Call<BusinessBean> call = netService.getFoods(params);
+        call.enqueue(callback);
+    }
+
+    public void getDistricts(String city, Callback<DistrictBean> callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("city", city);
+        Call<DistrictBean> districts = netService.getDistricts(params);
+        districts.enqueue(callback);
+    }
 }

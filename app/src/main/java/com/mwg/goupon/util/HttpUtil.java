@@ -1,20 +1,28 @@
 package com.mwg.goupon.util;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.ImageView;
 
 import com.android.volley.Response;
 import com.mwg.goupon.R;
 import com.mwg.goupon.app.MyApp;
 import com.mwg.goupon.bean.CityBean;
+import com.mwg.goupon.bean.DistrictBean;
 import com.mwg.goupon.bean.TuanBean;
+import com.mwg.goupon.constant.BusinessBean;
 import com.mwg.goupon.util.RetrofitClient;
 import com.mwg.goupon.util.VolleyClient;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -23,7 +31,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map;;
 
 import retrofit2.Callback;
 
@@ -172,28 +180,68 @@ public class HttpUtil {
         RetrofitClient.getInstance().test();
     }
 
-    public static void getDailyDealsByVolley(String city, Response.Listener<TuanBean> listener){
-        VolleyClient.getInstance().getDailyDeals2(city,listener);
+    public static void getDailyDealsByVolley(String city, Response.Listener<TuanBean> listener) {
+        VolleyClient.getInstance().getDailyDeals2(city, listener);
     }
 
-    public static void getDailyDealsByRetrofit(String city, Callback<TuanBean> callback){
-        RetrofitClient.getInstance().getDailyDealsFromRetrofit2(city,callback);
+    public static void getDailyDealsByRetrofit(String city, Callback<TuanBean> callback) {
+        RetrofitClient.getInstance().getDailyDealsFromRetrofit2(city, callback);
     }
 
-    public static void loadImage(String url, ImageView iv){
-        VolleyClient.getInstance().loadImage(url,iv);
+    public static void loadImage(String url, ImageView iv) {
+        VolleyClient.getInstance().loadImage(url, iv);
     }
 
-    public static void displayImage(String url, ImageView iv){
+    public static void displayImage(String url, ImageView iv) {
         Picasso.with(MyApp.CONTEXT).load(url).placeholder(R.drawable.bucket_no_picture).
                 error(R.drawable.bucket_no_picture).into(iv);
     }
 
-    public static void getCitiesByVolley(Response.Listener<String> listener){
+    public static void getCitiesByVolley(Response.Listener<String> listener) {
         VolleyClient.getInstance().getCitiesByVolley(listener);
     }
 
-    public static void getCitiesByRetrofit(Callback<CityBean> callback){
+    public static void getCitiesByRetrofit(Callback<CityBean> callback) {
         RetrofitClient.getInstance().getCities(callback);
     }
+
+    public static void getFoodsByVolley(String city, String region, Response.Listener<String> listener) {
+        VolleyClient.getInstance().getFoods(city, region, listener);
+    }
+
+    public static void getFoodsByRetrofit(String city, String region, Callback<BusinessBean> callback) {
+        RetrofitClient.getInstance().getFoods(city, region, callback);
+    }
+
+    public static void getDistrictsByRetrofit(String city, Callback<DistrictBean> callback) {
+        RetrofitClient.getInstance().getDistricts(city, callback);
+    }
+
+    public static void getComment(final String url, final OnResponseListener<Document> listener) {
+
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    final Document document = Jsoup.connect(url).get();
+
+                    //提交一个run()方法中所执行的任务，到Handler所服务的那个线程中去
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onResponse(document);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public interface OnResponseListener<T> {
+        void onResponse(T t);
+    }
 }
+

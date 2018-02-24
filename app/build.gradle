@@ -16,6 +16,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets{
+        main{
+            jniLibs.srcDir 'libs'
+            jni.srcDirs = []
+        }
+    }
 }
 
 dependencies {
@@ -42,4 +49,6 @@ dependencies {
     implementation files('libs/ormlite-core-5.0.jar')
     implementation files('libs/pinyin4j-2.5.1.jar')
     implementation 'com.android.support:recyclerview-v7:26+'
+    implementation files('libs/jsoup-1.10.3.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
 }

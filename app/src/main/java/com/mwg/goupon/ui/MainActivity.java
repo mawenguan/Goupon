@@ -67,6 +67,15 @@ public class MainActivity extends Activity {
         initListView();
     }
 
+    @OnClick(R.id.rb_bottom_menu_find)
+    public void jump(View view){
+        Intent intent = new Intent(MainActivity.this,MapActivity.class);
+        intent.putExtra("from","main");
+
+        startActivity(intent);
+    }
+
+
     @OnClick(R.id.ll_main_city)
     public void jumpToCity(View view) {
         Intent intent = new Intent(this, CityActivity.class);
@@ -172,6 +181,17 @@ public class MainActivity extends Activity {
                 int layoutID = resIDs[position % 3];
                 View view = LayoutInflater.from(MainActivity.this).
                         inflate(layoutID, viewPager, false);
+                if (position%3==0){
+                    View foodView = view.findViewById(R.id.ll_content_header_views_food);
+                    foodView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(MainActivity.this,BusinessActivity.class);
+                            intent.putExtra("city",textViewCity.getText().toString());
+                            startActivity(intent);
+                        }
+                    });
+                }
                 container.addView(view);
                 return view;
             }

@@ -8,14 +8,14 @@ import android.preference.PreferenceManager;
 import com.mwg.goupon.constant.Constant;
 
 /**
- * 对偏好设置文件惊醒操作
+ * 对偏好设置文件进行操作
  * 1、Context下的getSharedPreferences(文件名, Context.MODE模式);
  * 2、Activity的getPreferences(模式)；
  * 3、PreferenceManager的getDefaultSharedPreferences(Context）;
  * Created by mwg on 2018/1/11.
  */
 
-public class SharedPreferencesUtil {
+public class  SharedPreferencesUtil {
 
     SharedPreferences sp;
 
@@ -35,6 +35,16 @@ public class SharedPreferencesUtil {
     public void setFirst(Boolean flag){
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean(Constant.FIRST,flag);
+        editor.commit();
+    }
+
+    public boolean isCloseBanner(){
+        return sp.getBoolean(Constant.ISCLOSE,false);
+    }
+
+    public void setCloseBanner(boolean flag){
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(Constant.ISCLOSE,flag);
         editor.commit();
     }
 }

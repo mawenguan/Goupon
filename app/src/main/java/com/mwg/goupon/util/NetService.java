@@ -1,11 +1,14 @@
 package com.mwg.goupon.util;
 
 import com.mwg.goupon.bean.CityBean;
+import com.mwg.goupon.bean.DistrictBean;
 import com.mwg.goupon.bean.TuanBean;
+import com.mwg.goupon.constant.BusinessBean;
 
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -42,4 +45,10 @@ public interface NetService {
 
     @GET("metadata/get_cities_with_businesses")
     public Call<CityBean> getCities();
+
+    @GET("business/find_businesses")
+    public Call<BusinessBean> getFoods(@QueryMap Map<String,String> params);
+
+    @GET("metadata/get_regions_with_businesses")
+    public Call<DistrictBean> getDistricts(@QueryMap Map<String,String> params);
 }

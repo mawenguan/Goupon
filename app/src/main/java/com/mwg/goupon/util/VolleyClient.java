@@ -2,6 +2,7 @@ package com.mwg.goupon.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
@@ -256,6 +257,19 @@ public class VolleyClient {
 
         Map<String, String> params = new HashMap<String, String>();
         String url = HttpUtil.getURL("http://api.dianping.com/v1/metadata/get_cities_with_businesses",params);
+        StringRequest request = new StringRequest(url,listener,null);
+        queue.add(request);
+    }
+
+    public void getFoods(String city, String region, Response.Listener<String> listener){
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("city",city);
+        params.put("category","美食");
+        if (!TextUtils.isEmpty(region)) {
+            params.put("region",region);
+        }
+        String url = HttpUtil.getURL("http://api.dianping.com/v1/business/find_businesses",params);
         StringRequest request = new StringRequest(url,listener,null);
         queue.add(request);
     }
