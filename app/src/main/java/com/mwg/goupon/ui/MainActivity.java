@@ -292,7 +292,7 @@ public class MainActivity extends Activity {
                     List<TuanBean.Deal> deals = tuanBean.getDeals();
                     adapter.addAll(deals, true);
                 } else {
-                    Toast.makeText(MainActivity.this, "今日无新增团购信息！", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "今日无新增团购信息", Toast.LENGTH_LONG).show();
                 }
                 pullToRefreshListView.onRefreshComplete();
             }
